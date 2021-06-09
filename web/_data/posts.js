@@ -14,25 +14,15 @@ function generatePost (post) {
 
 async function getPosts () {
   // Learn more: https://www.sanity.io/docs/data-store/how-queries-work
-  const filter = groq`*[_type == "post" && defined(slug) && publishedAt < now()]`
+  const filter = groq`*[_type == "post" && publishedAt < now()]`
   const projection = groq`{
     _id,
     publishedAt,
     title,
-    slug,
+    soundcloudWidget,
     body[]{
-      ...,
-      children[]{
-        ...,
-        // Join inline reference
-        _type == "authorReference" => {
-          // check /studio/documents/authors.js for more fields
-          "name": @.author->name,
-          "slug": @.author->slug
-        }
-      }
-    },
-    "authors": authors[].author->
+      ...
+    }
   }`
   const order = `| order(publishedAt asc)`
   const query = [filter, projection, order].join(' ')

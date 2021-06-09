@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ renderData.title or title or metadata.title }}</title>
     <meta name="Description" content="{{ renderData.description or description or metadata.description }}">
-      {# <link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="{{ metadata.title }}"> #}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
     {% set css %}
       {% include "style.css" %}
     {% endset %}
@@ -15,12 +16,8 @@
   </head>
   <body>
     <header>
-      <h1 class="home"><a href="{{ '/' | url }}">{{ metadata.title }}</a></h1>
-      <ul class="nav">
-        {%- for nav in collections.nav | reverse -%}
-        <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
-        {%- endfor -%}
-      </ul>
+      <span>humans + computers</span>
+      <span>h+c</span>
     </header>
 
     <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
@@ -28,9 +25,30 @@
     </main>
 
     <footer>
-        <p><em>This is an <a href="https://www.11ty.io/">Eleventy</a> + <a href="https://www.sanity.io">Sanity.io</a> project inspired by the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em></p>
+      <img class="computer" src="https://drfub75i03hj9.cloudfront.net/uploads/uploads/assets/000/000/005/original/footer-image1.png?1531424859" />
+      <div class="footer-inner">
+        <div class="about">
+          {{ renderData.description or description or metadata.description }}
+        </div>
+        <ul class="links">
+          <li><a href="https://www.instagram.com/humansandcomputers" target="_blank">instagram</a></li>
+          <li><a href="https://twitter.com/Humansandcompu" target="_blank">twitter</a></li>
+          <li><a href="mailto:hi@humansandcomputers.co">email</a></li>
+        </ul>
+      </div>
+      <img class="human" src="https://drfub75i03hj9.cloudfront.net/uploads/uploads/assets/000/000/004/original/footer-image2.png?1531424859" />
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $('nav a[href^="/' + location.pathname.split("/")[1] + '"]:first').addClass('active');
+      });
+      $('.post iframe').on('click', function() {
+        $(this).addClass('clicked');
+        console.log('clicked!');
+      });
+    </script>
     <!-- Current page: {{ page.url | url }} -->
   </body>
 </html>
